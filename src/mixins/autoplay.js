@@ -22,6 +22,13 @@ const autoplay = {
       default: true
     },
     /**
+     * Flag to begin autoplay on hover. autoplayHoverPause must be set to false.
+     */
+    autoplayHoverPlay: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Autoplay direction. User can insert backward to make autoplay move from right to left
      */
     autoplayDirection: {
@@ -38,15 +45,19 @@ const autoplay = {
     if (!this.$isServer) {
       this.$el.removeEventListener("mouseenter", this.pauseAutoplay);
       this.$el.removeEventListener("mouseleave", this.startAutoplay);
+      this.$el.removeEventListener("mouseenter", this.startAutoplay);
+      this.$el.removeEventListener("mouseleave", this.pauseAutoplay);
     }
   },
   methods: {
     pauseAutoplay() {
+      console.log("pause");
       if (this.autoplayInterval) {
         this.autoplayInterval = clearInterval(this.autoplayInterval);
       }
     },
     startAutoplay() {
+      console.log("start");
       if (this.autoplay) {
         this.autoplayInterval = setInterval(
           this.autoplayAdvancePage,
@@ -55,6 +66,7 @@ const autoplay = {
       }
     },
     restartAutoplay() {
+      console.log("restart");
       this.pauseAutoplay();
       this.startAutoplay();
     },
@@ -66,6 +78,9 @@ const autoplay = {
     if (!this.$isServer && this.autoplayHoverPause) {
       this.$el.addEventListener("mouseenter", this.pauseAutoplay);
       this.$el.addEventListener("mouseleave", this.startAutoplay);
+    } else if (!this.$isServer && this.autoplayHoverPlay) {
+      this.$el.addEventListener("mouseenter", this.startAutoplay);
+      this.$el.addEventListener("mouseleave", this.pauseAutoplay);
     }
 
     this.startAutoplay();
