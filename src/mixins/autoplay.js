@@ -51,13 +51,13 @@ const autoplay = {
   },
   methods: {
     pauseAutoplay() {
-        console.log("pause")
+      console.log("pause");
       if (this.autoplayInterval) {
         this.autoplayInterval = clearInterval(this.autoplayInterval);
       }
     },
     startAutoplay() {
-        console.log("start")
+      console.log("start");
       if (this.autoplay) {
         this.autoplayInterval = setInterval(
           this.autoplayAdvancePage,
@@ -66,7 +66,7 @@ const autoplay = {
       }
     },
     restartAutoplay() {
-        console.log("restart")
+      console.log("restart");
       this.pauseAutoplay();
       this.startAutoplay();
     },
